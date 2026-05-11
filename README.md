@@ -1,1 +1,1 @@
-# recipefinderbackend
+# recipe-finder-backend

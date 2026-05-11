@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum Role {
+  user
+  content_manager
+  admin
+}
+
+model User {
+  id              Int       @id @default(autoincrement()) @db.UnsignedInt
+  name            String    @db.VarChar(50)
+  username        String    @unique @db.VarChar(255)
+  email           String    @unique @db.VarChar(255)
+  emailVerifiedAt DateTime? @db.Timestamp(0)
+  password        String    @db.Char(60)
+  role            Role      @default(user)
+  createdAt       DateTime  @default(now()) @db.Timestamp(0)
+  updatedAt       DateTime  @updatedAt @db.Timestamp(0)
+  deletedAt       DateTime? @db.Timestamp(0)
+  recipes         Recipe[]
+}
+
+model Recipe {
+  id           Int           @id @default(autoincrement()) @db.UnsignedInt
+  slug         String        @unique @db.VarChar(255)
+  title        String        @db.VarChar(255)
+  summary      String?       @db.Text
+  cover        String?       @db.VarChar(255)
+  servings     Int?          @db.UnsignedInt
+  prepMinutes  Int?          @db.UnsignedInt
+  cookMinutes  Int?          @db.UnsignedInt
+  createdAt    DateTime      @default(now()) @db.Timestamp(0)
+  updatedAt    DateTime      @updatedAt @db.Timestamp(0)
+  userId       Int           @db.UnsignedInt
+  user         User          @relation(fields: [userId], references: [id])
+  instructions Instruction[]
+  ingredients  Ingredient[]
+}
+
+model Instruction {
+  id          Int    @id @default(autoincrement()) @db.UnsignedInt
+  description String @db.Text
+  order       Int?
+  recipeId    Int    @db.UnsignedInt
+  recipe      Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+}
+
+model Ingredient {
+  id       Int    @id @default(autoincrement()) @db.UnsignedInt
+  name     String @db.VarChar(255)
+  order    Int?
+  recipeId Int    @db.UnsignedInt
+  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+}

@@ -1,0 +1,25 @@
+@baseUrl = http://localhost:3000
+
+### List recipes (page 1)
+GET {{baseUrl}}/api/v2/recipes
+
+### List recipes (page 2)
+GET {{baseUrl}}/api/v2/recipes?page=2
+
+### List recipes (page 3)
+GET {{baseUrl}}/api/v2/recipes?page=3
+
+### List recipes (max prep time 15 min)
+GET {{baseUrl}}/api/v2/recipes?maxPrepTime=15
+
+### List recipes (max cook time 30 min)
+GET {{baseUrl}}/api/v2/recipes?maxCookTime=30
+
+### List recipes (search by name)
+GET {{baseUrl}}/api/v2/recipes?search=pancake
+
+### List recipes (search by ingredient)
+GET {{baseUrl}}/api/v2/recipes?search=lemon
+
+### List recipes (all filters combined)
+GET {{baseUrl}}/api/v2/recipes?maxPrepTime=20&maxCookTime=30&search=oat&page=1
